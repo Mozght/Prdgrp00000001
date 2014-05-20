@@ -300,3 +300,4 @@ div.form select:first-child, #Orders_seller_id{margin-left:0;}
 div.form .checkboxes label{display:inline-block;float:none;margin-bottom:0;}
 div.form .checkboxes input[type=text] {margin-left:5px;margin-top:0;margin-bottom:0;}
 div.form .checkboxes .checkbox_row {height:20px;}
+.errorSummary, .required {color:red;}

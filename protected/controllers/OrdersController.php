@@ -87,6 +87,8 @@ class OrdersController extends Controller {
             $acc = DeviceAccessories::model()->findAllByPk($acc_ids);
             $orders->Accessories = $acc;
             $orders->Accessories->title = 'test';
+            var_dump($orders->Accessories);
+            exit();
             if (empty($orders->device_id)) {
                 $device = new Devices;
                 $device->title = $_POST['device_model'];
