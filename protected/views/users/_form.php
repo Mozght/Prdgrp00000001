@@ -32,7 +32,7 @@
 	</div>
 	<?php if (Yii::app()->user->role === 'admin') {?>
     
-    <div class="row">
+        <div class="row">
 		<?php echo $form->labelEx($model,'group_id'); ?>
 		<?php echo $form->dropDownList($model,'group_id',array('guest'=>'Гость','acceptor'=>'Приемщик','engineer'=>'Инженер','admin'=>'Администратор')); ?>
 		<?php echo $form->error($model,'group_id'); ?>
@@ -53,8 +53,8 @@
 		<?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>128)); ?>
 		<?php echo $form->error($model,'email'); ?>
 	</div>
-
-	<div class="row">
+        
+        <div class="row">
 		<?php echo $form->labelEx($model,'phone'); ?>
 		<?php echo $form->textField($model,'phone',array('size'=>45,'maxlength'=>45)); ?>
 		<?php echo $form->error($model,'phone'); ?>

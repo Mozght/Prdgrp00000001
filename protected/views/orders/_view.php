@@ -24,6 +24,14 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('date_reciept')); ?>:</b>
 	<?php echo CHtml::encode($data->date_reciept); ?>
 	<br />
+        
+        <b><?php echo CHtml::encode($data->getAttributeLabel('date_modify')); ?>:</b>
+	<?php echo CHtml::encode($data->date_modify); ?>
+	<br />
+        
+        <b><?php echo CHtml::encode($data->getAttributeLabel('date_release')); ?>:</b>
+	<?php echo CHtml::encode($data->date_release); ?>
+	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('seller_id')); ?>:</b>
 	<?php echo CHtml::encode($data->seller_id); ?>

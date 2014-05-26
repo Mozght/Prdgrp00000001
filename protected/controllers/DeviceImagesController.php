@@ -27,15 +27,9 @@ class DeviceImagesController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','view','create','update'),
-				'users'=>array('@'),
-                                'roles' => array('acceptor')
-			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('@'),
-                                'roles' => array('acceptor')
+				'actions'=>array('admin','delete','index','view','create','update'),
+				'roles'=>array('admin','acceptor'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -111,25 +105,31 @@ class DeviceImagesController extends Controller
 		$this->loadModel($id)->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		
 	}
 
 	/**
 	 * Lists all models.
 	 */
+	public function actionIndex()
+	{
+		$dataProvider=new CActiveDataProvider('DeviceImages');
+		$this->render('index',array(
+			'dataProvider'=>$dataProvider,
+		));
+	}
 
 	/**
 	 * Manages all models.
 	 */
-	public function actionIndex()
+	public function actionAdmin()
 	{
 		$model=new DeviceImages('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['DeviceImages']))
 			$model->attributes=$_GET['DeviceImages'];
 
-		$this->render('index',array(
+		$this->render('admin',array(
 			'model'=>$model,
 		));
 	}

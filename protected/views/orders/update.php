@@ -16,4 +16,4 @@ $this->menu=array(
 
 <h1>Обновить заказ <?php echo $orders->id; ?></h1>
 
-<?php $this->renderPartial('_form', array('orders'=>$orders,'customers' => $customers, 'device'=>$device)); ?>
+<?php $this->renderPartial('_form', array('orders'=>$orders,'customers' => $customers, 'device'=>$device, 'accessories'=>$accessories,'sel_acc'=>$sel_acc,)); ?>

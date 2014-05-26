@@ -15,4 +15,4 @@ $this->menu=array(
 
 <h1>Создать заказ</h1>
 
-<?php $this->renderPartial('_form', array('orders'=>$orders, 'customers'=>$customers)); ?>
+<?php $this->renderPartial('_form', array('orders'=>$orders, 'customers'=>$customers,'images'=>$images)); ?>

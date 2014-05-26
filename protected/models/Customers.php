@@ -29,8 +29,8 @@ class Customers extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-                        array('title, address, phone', 'required'),
-			array('pa', 'numerical', 'integerOnly'=>true),
+                        array('title, address, phone, area, code', 'required'),
+			array('pa, phone, area, code', 'numerical', 'integerOnly'=>true),
 			array('title, phone, address, description', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -58,6 +58,8 @@ class Customers extends CActiveRecord
 			'id' => 'ID',
 			'title' => 'ФИО',
 			'address' => 'Адрес',
+                        'area'=>'Код',
+                        'code'=>'М.Код',
 			'phone' => 'Телефон',
 			'description' => 'Примечание',
 			'pa' => 'Pa',

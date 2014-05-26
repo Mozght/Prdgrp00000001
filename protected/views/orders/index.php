@@ -47,17 +47,20 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ( $data->device_status_id == 4 ? " c_st_4" : null ) .
         ( $data->device_status_id == 5 ? " c_st_5" : null ) .
         ( $data->device_status_id == 6 ? " c_st_6" : null ) .
-        ( strtotime($data->date_sale."+13 days") > time()-(60*60*24) ? " c_st_7" : null ) .
-        ( strtotime($data->date_reciept."+13 days") < time()-(60*60*24) ? " c_st_8" : null ) .
+        ( $data->device_status_id == 7 ? " c_st_7" : null ) .
+        ( strtotime($data->date_sale."+13 days") > time()-(60*60*24) ? " c_st_8" : null ) .
+        ( strtotime($data->date_reciept."+13 days") < time()-(60*60*24) ? " c_st_9" : null ) .
         ( $data->pa ? null : " deleted" )
     ',
     'columns' => array(
         array(
             'name' => 'id',
+            'header'=>'#',
             'htmlOptions' => array('width' => '30px', 'style' => "font-weight:bold;text-align:center;"),
         ),
         array(
             'name' => 'Model.Brand',
+            'header'=>'Брэнд',
             'value' => '$data->Model->Brand->title',
             //'sortable' => true,
         ),
@@ -70,9 +73,13 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'name' => 'device_status_id',
             'type'=>'raw',
-            'value' => '$data->Device_Status->title."<div class=\"clearfix mt5\"><div class=\"st c_st_1\"></div><div class=\"st c_st_2\"></div><div class=\"st c_st_3\"></div><div class=\"st c_st_4\"></div><div class=\"st c_st_5\"></div><div class=\"st c_st_6\"></div><div class=\"st c_st_7\"></div><div class=\"st c_st_8\"></div></div"',
+            'value' => '"<div class=\"clearfix mt5\"><div class=\"st c_st_1\"></div><div class=\"st c_st_2\"></div><div class=\"st c_st_3\"></div><div class=\"st c_st_4\"></div><div class=\"st c_st_5\"></div><div class=\"st c_st_6\"></div><div class=\"st c_st_7\"></div><div class=\"st c_st_8\"></div></div"',
             'filter' => DeviceStatus::all(),
             'sortable' => false,
+        ),
+        array(
+            'name' => 'date_release',
+            'value' => '($data->device_status_id!=7)?"":Yii::app()->dateFormatter->format(\'dd.MM.yyyy HH:mm:ss\', strtotime($data->date_release))',
         ),
         array(
             'name' => 'Customer',
@@ -80,8 +87,18 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'sortable' => true,
         ),
         'cost',
-        'claims',
-        'result',
+        array(
+            'name'=>'claims',
+            'filterHtmlOptions'=>array('style'=>'width: 15%;'),
+        ),
+        array(
+            'name'=>'result',
+            'filterHtmlOptions'=>array('style'=>'width: 15%;'),
+        ),
+        array(
+            'name'=>'description',
+            'filterHtmlOptions'=>array('style'=>'width: 10%;'),
+        ),
         array(
             'name' => 'date_reciept',
             'value' => 'Yii::app()->dateFormatter->format(\'dd.MM.yyyy HH:mm:ss\', strtotime($data->date_reciept))',
@@ -90,6 +107,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'name' => 'UserTo',
             'value' => '(empty($data->UserTo->id))?"Нет":$data->UserTo->title',
         ),
+        
         array(
             'class' => 'CButtonColumn',
             'template'=>'{redirect} {view} {pdf} {update} {delete}',
@@ -114,9 +132,10 @@ $this->widget('zii.widgets.grid.CGridView', array(
     <div class="st c_st_1"> </div> - Принят в ремонт
     <div class="st c_st_2"> </div> - В ремонте
     <div class="st c_st_3"> </div> - Готов к выдаче
+    <div class="st c_st_7"> </div> - Выдан
     <div class="st c_st_4"> </div> - На тестировании
-    <div class="st c_st_5"> </div> - Перенаправлен на ремонт
+    <div class="st c_st_5"> </div> - Перенаправлен на ремонт<br/>
     <div class="st c_st_6"> </div> - Перенаправлен на тестирование
-    <div class="st c_st_7"> </div> - Дата продажи меньше 14 дней
-    <div class="st c_st_8"> </div> - Телефон находится в ремонте более 14 дней
+    <div class="st c_st_8"> </div> - Дата продажи меньше 14 дней
+    <div class="st c_st_9"> </div> - Телефон находится в ремонте более 14 дней
 </div>

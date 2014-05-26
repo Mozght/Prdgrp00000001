@@ -24,6 +24,7 @@ class OrdersAccessories extends CActiveRecord
 	{
 		return array(
 			array('order_id, accessory_id', 'required'),
+                        array('title', 'default'),
 			array('order_id, accessory_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

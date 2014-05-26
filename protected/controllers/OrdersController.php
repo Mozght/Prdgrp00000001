@@ -1,5 +1,4 @@
 <?php
-
 class OrdersController extends Controller {
 
     /**
@@ -80,15 +79,15 @@ class OrdersController extends Controller {
     public function actionCreate() {
         $orders = new Orders;
         $customers = new Customers;
+        $images = new Images;
         if (isset($_POST['Orders']) && isset($_POST['Customers'])) {
             $orders->attributes = $_POST['Orders'];
             $customers->attributes = $_POST['Customers'];
             $acc_ids = $_POST['Orders']['Accessories']['Checkbox'];
+            $acc_title = $_POST['Orders']['Accessories']['Title'];
+            $customers = new Customers;
             $acc = DeviceAccessories::model()->findAllByPk($acc_ids);
             $orders->Accessories = $acc;
-            $orders->Accessories->title = 'test';
-            var_dump($orders->Accessories);
-            exit();
             if (empty($orders->device_id)) {
                 $device = new Devices;
                 $device->title = $_POST['device_model'];
@@ -104,8 +103,10 @@ class OrdersController extends Controller {
                 $seller->attributes = $_POST['Seller'];
                 $seller->pa = 1;
                 $seller->description = 'Проверить';
-                if($seller->save()){                            
-                  $orders->seller_id = $seller->id ;
+                if (!empty($seller->title)) {
+                    if($seller->save()){                            
+                      $orders->seller_id = $seller->id ;
+                    }                
                 }
             }
             if (empty($orders->customer_id)) {
@@ -113,13 +114,34 @@ class OrdersController extends Controller {
                     $orders->customer_id = $customers->primaryKey;
                 }
             }
-            if ($orders->save())
-                $this->redirect(array('index'));
+
+            if ($orders->save()) {                
+                if (isset($_FILES['images'])) {
+                    $images = CUploadedFile::getInstancesByName('images');
+                    if (isset($images) && count($images) > 0) {
+                        foreach ($images as $image => $pic) {
+                            if ($pic->saveAs(Yii::getPathOfAlias('webroot') . '/upload/img/' . $pic->name)) {
+                                $img_add = new Images();
+                                $img_add->url = $pic->name;
+                                $img_add->order_id = $orders->id;
+                                $img_add->title = $pic->name;
+                                $img_add->pa = 1;
+                                $img_add->save(); // DONE
+                            } else {
+                                echo 'Не удается закачать файл!';
+                            }
+                        }
+                    }
+                }
+                
+                $this->redirect(array('index'));                
+            }
+                
         }
 
         $this->render('create', array(
             'orders' => $orders,
-            'customers' => $customers,
+            'customers'=>$customers,
         ));
     }
 
@@ -128,8 +150,8 @@ class OrdersController extends Controller {
         $orders = $this->loadModel($id);
         $customers = Customers::model()->findByPk($orders->customer_id);
         $device = Devices::model()->findByPk($orders->device_id);
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+        $accessories = DeviceAccessories::model()->findAll();
+        $seleceted_accessories = OrdersAccessories::model()->findAllByAttributes(array('order_id'=>$id));
 
         if (isset($_POST['Orders'])) {
             $orders->attributes = $_POST['Orders'];
@@ -145,6 +167,23 @@ class OrdersController extends Controller {
                 }
             }
             if ($orders->save())
+                if (isset($_FILES['images'])) {
+                    $images = CUploadedFile::getInstancesByName('images');
+                    if (isset($images) && count($images) > 0) {
+                        foreach ($images as $image => $pic) {
+                            if ($pic->saveAs(Yii::getPathOfAlias('webroot') . '/upload/img/' . $pic->name)) {
+                                $img_add = new Images();
+                                $img_add->url = $pic->name;
+                                $img_add->order_id = $orders->id;
+                                $img_add->title = $pic->name;
+                                $img_add->pa = 1;
+                                $img_add->save(); // DONE
+                            } else {
+                                echo 'Не удается закачать файл!';
+                            }
+                        }
+                    }
+                }
                 $this->redirect(array('index'));
         }
 
@@ -152,6 +191,8 @@ class OrdersController extends Controller {
             'orders' => $orders,
             'customers' => $customers,
             'device' => $device,
+            'accessories' => $accessories,
+            'sel_acc'=>$seleceted_accessories,
         ));
     }
 

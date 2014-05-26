@@ -1,22 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "device_accessories".
+ * This is the model class for table "{{device_images}}".
  *
- * The followings are the available columns in table 'device_accessories':
+ * The followings are the available columns in table '{{device_images}}':
  * @property integer $id
+ * @property integer $order_id
  * @property string $title
- * @property string $description
+ * @property string $url
  * @property integer $pa
  */
-class DeviceAccessories extends CActiveRecord
+class Images extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{device_accessories}}';
+		return '{{device_images}}';
 	}
 
 	/**
@@ -27,12 +28,13 @@ class DeviceAccessories extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('pa', 'numerical', 'integerOnly'=>true),
+			array('order_id', 'required'),
+			array('order_id, pa', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>256),
-			array('description', 'safe'),
+			array('url', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, title, description, pa', 'safe', 'on'=>'search'),
+			array('id, order_id, title, url, pa', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -44,9 +46,6 @@ class DeviceAccessories extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                    'Orders'=>array(self::MANY_MANY, 'Orders', 'orders_accessories(accessory_id,order_id)'),
-                    'Order'=>array(self::HAS_MANY, 'OrdersAccessories', 'order_id'),
-                    'AccValue' =>array(self::HAS_MANY,'OrdersAccessories','accessory_id'),
 		);
 	}
 
@@ -57,8 +56,9 @@ class DeviceAccessories extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
+			'order_id' => 'Order',
 			'title' => 'Title',
-			'description' => 'Description',
+			'url' => 'Url',
 			'pa' => 'Pa',
 		);
 	}
@@ -82,8 +82,9 @@ class DeviceAccessories extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
+		$criteria->compare('order_id',$this->order_id);
 		$criteria->compare('title',$this->title,true);
-		$criteria->compare('description',$this->description,true);
+		$criteria->compare('url',$this->url,true);
 		$criteria->compare('pa',$this->pa);
 
 		return new CActiveDataProvider($this, array(
@@ -95,13 +96,10 @@ class DeviceAccessories extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return DeviceAccessories the static model class
+	 * @return Images the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
-        public static function all() {           
-            return CHtml::listData(self::model()->findAll(),'id','title');
-        }
 }

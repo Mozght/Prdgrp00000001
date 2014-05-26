@@ -1,3 +1,4 @@
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/jquery-1.11.0.min.js'); ?>
 <?php
 /* @var $this OrdersController */
 /* @var $model Orders */
@@ -27,6 +28,8 @@ $this->menu=array(
 		'imei',
 		'date_sale',
 		'date_reciept',
+                'date_modify',
+                'date_release',
 		'Seller.title:text:Продавец',
 		//'device_state_id',
 		'Device_Status.title:text:Статус',
@@ -63,8 +66,16 @@ $this->menu=array(
 		'User.title:text:Приемщик',
 	),
 )); ?>
-
-
+<h2>Изображения</h2>
+<ul class="gallery clearfix">
+<?php
+ foreach ($model->Images as $image) {
+     echo '<li>';
+     echo CHtml::link(CHtml::image(ImageHelper::thumb(150,150,'/upload/img/'.$image->url), array('method' => 'adaptiveResize')),'/upload/img/'.$image->url,array('data-lightbox'=>'phone-images'));
+     echo '</li>';
+ }
+?>
+</ul>
 <h2>История ремонта</h2>
 <?php
  foreach ($model->History as $history) {

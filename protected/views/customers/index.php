@@ -26,7 +26,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Управление клиентам</h1>
+<h1>Управление клиентами</h1>
 
 <?php echo CHtml::link('Поиск','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">

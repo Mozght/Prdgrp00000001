@@ -96,7 +96,8 @@ class Seller extends CActiveRecord
 		return parent::model($className);
 	}
         
-        public static function all() {           
-            return CHtml::listData(self::model()->findAll(),'id','title');
+        public static function all() {    
+            $all = CHtml::listData(self::model()->findAllByAttributes(array('pa'=>1)),'id','title');            
+            return $all;
         }
 }

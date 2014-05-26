@@ -7,6 +7,9 @@ body
 	background: #EFEFEF;
 }
 
+h1 {margin-top:0;}
+.alert h1,.alert h2,.alert h3,.alert h4,.alert h5, .alert h6 {margin-top:0px;}
+
 #page
 {
 	margin-top: 5px;
@@ -237,8 +240,8 @@ tr.deleted td, .deleted {
     background:#E8566E !important; color:#fff !important;
 }
 tr div.st {display:none;width:15px;height:10px;float:left;border:1px #aaa solid; margin-right:2px;}
-.legend div.st {width:15px;height:10px;border:1px #aaa solid; display:inline-block;margin-left:15px;}
-.legend div.st:first-child {margin-left:0;}
+.legend div.st {width:15px;height:10px;border:1px #aaa solid; display:inline-block;margin:0px 5px;}
+.legend div.st:first-child {}
 tr.c_st_1 td .st.c_st_1,
 tr.c_st_2 td .st.c_st_2,
 tr.c_st_3 td .st.c_st_3,
@@ -257,7 +260,7 @@ tr.c_st_8 td .st.c_st_8 {display:block;}
 }
 
 .c_st_3 {
-    background:#2cf343;
+    background:#34A842;
 }
 
 .c_st_4 {
@@ -274,7 +277,7 @@ tr.c_st_8 td .st.c_st_8 {display:block;}
 }
 
 .c_st_7 {
-    background:#b155e1;
+    background:#2cf343;
 
 }
 
@@ -295,9 +298,17 @@ tr a {color:#000;}
 .alert {margin-bottom:0;margin-top:15px;}
 div.form label {display:block;cursor: pointer; width:150px; float:left;}
 div.form .form_row {margin-bottom:10px;}
-div.form select {margin-left:13px;}
-div.form select:first-child, #Orders_seller_id{margin-left:0;}
-div.form .checkboxes label{display:inline-block;float:none;margin-bottom:0;}
+div.form select {margin-right:13px;}
+div.form .checkboxes label{display:inline-block;float:none;margin-bottom:0;height:25px;line-height:25px}
 div.form .checkboxes input[type=text] {margin-left:5px;margin-top:0;margin-bottom:0;}
-div.form .checkboxes .checkbox_row {height:20px;}
-.errorSummary, .required {color:red;}
+div.form .checkboxes .checkbox_row {height:25px;}
+.errorSummary, .required>span {color:red;}
+#Orders_pa {margin-bottom:15px;}
+.gallery li {float:left;list-style:none;margin-right:2px;position:relative;}
+.gallery li .delete_link {position:absolute;top:5px;right:5px;color:red;opacity:0.6}
+.gallery li .delete_link:hover {opacity:1}
+.gallery {margin:0;padding:0;}
+.customers_phone label {width:auto !important;}
+.customers_phone {width:100px;}
+.customers_phone input {margin-right:5px;}
+.errorMessage {color:red;}

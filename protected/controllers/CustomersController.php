@@ -51,6 +51,8 @@ class CustomersController extends Controller {
                 $label = $customer['title'].' '.$customer['address'];
                 $result[] = array(
                     'description' => $customer['description'],
+                    'area' => $customer['area'],
+                    'code' => $customer['code'],
                     'phone' => $customer['phone'],
                     'address' => $customer['address'], 
                     'id' => $customer['id'], 

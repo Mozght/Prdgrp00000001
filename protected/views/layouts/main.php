@@ -13,8 +13,7 @@
         <![endif]-->
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
-        <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
-
+        <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/lightbox.css" />
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     </head>
 
@@ -39,7 +38,7 @@
             ),
         );
         ?>
-        <div class="container" id="page">
+        <div id="page">
 
             <div id="header" class="clearfix">
                 <div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
@@ -88,11 +87,18 @@ if (!Yii::app()->user->isGuest) {
             </div><!-- footer -->
 
         </div><!-- page -->
+        
         <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/bootstrap.min.js', CClientScript::POS_END); ?>
+        <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/lightbox.min.js', CClientScript::POS_END); ?>
         <script>
             $(document).ready(function() {
-                $('#Orders_Accessories_Checkbox input').one("click",function() {
-                    $(this).after('<input type="text" name="Orders[Accessories][Title][]"/>');
+                $('.checkboxes input[type=checkbox]').on("click",function() {                 
+                    if (!$(this).is(":checked")) {
+                        $(this).parent().children('input[type=text]').remove();
+                    }
+                    else {
+                        $(this).after('<input type="text" name="Orders[Accessories][Title][]"/>');
+                    }
                 });                               
             });
         </script>
