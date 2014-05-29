@@ -38,7 +38,7 @@ class OrdersAccessories extends CActiveRecord
 	public function relations()
 	{
 		return array(
-                    
+                    'Title' => array(self::BELONGS_TO, 'DeviceAccessories', 'accessory_id'),
 		);
 	}
 

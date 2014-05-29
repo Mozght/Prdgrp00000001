@@ -146,13 +146,11 @@ class OrdersController extends Controller {
     }
 
     public function actionUpdate($id) {
-
         $orders = $this->loadModel($id);
         $customers = Customers::model()->findByPk($orders->customer_id);
         $device = Devices::model()->findByPk($orders->device_id);
         $accessories = DeviceAccessories::model()->findAll();
         $seleceted_accessories = OrdersAccessories::model()->findAllByAttributes(array('order_id'=>$id));
-
         if (isset($_POST['Orders'])) {
             $orders->attributes = $_POST['Orders'];
             if (Yii::app()->user->role !== 'engineer') {
@@ -215,7 +213,6 @@ class OrdersController extends Controller {
         $model->unsetAttributes();  // clear any default values
         if (isset($_GET['Orders']))
             $model->attributes = $_GET['Orders'];
-        
         $criteria = new CDbCriteria;
         $criteria->addcondition('TO_DAYS(t.date_reciept) + 13 < TO_DAYS(NOW())');
         $count = Orders::model()->count($criteria);
@@ -227,7 +224,8 @@ class OrdersController extends Controller {
 
     public function actionOrderView($id,$pdf) {
         $order = Orders::model()->with('History')->findByPk($id);
-        return $this->renderPartial('order', array('order' => $order,'pdf'=>$pdf),true);  
+        $acc = OrdersAccessories::model()->with('Title')->findAllByAttributes(array('order_id'=>$id)); 
+        return $this->renderPartial('order', array('order' => $order, 'pdf'=>$pdf, 'acc' => $acc),true);  
     }
     
     public function actionGetBarcode($id) {
